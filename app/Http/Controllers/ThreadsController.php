@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Thread;
 use Illuminate\Http\Request;
+use App\Filters\ThreadsFilters;
 
 class ThreadsController extends Controller
 {
@@ -13,23 +14,21 @@ class ThreadsController extends Controller
         /**
          * Access unauth user to index action and show action
          */
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show', 'api']);
     }
 
     /**
      * Display a listing of the resource.
-     * @param $channelId
+     * @param $channel
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadsFilters $filters)
     {
-        if($channel->exists){
-            $threads = $channel->threads()->latest()->get();
-        }else{
-            $threads = Thread::latest()->get();
-        }
+        $threads = $this->getThreads($channel, $filters);
 
-        return view('threads.index', compact('threads'));
+        return view('threads.index', [
+            'threads' => $threads
+        ]);
     }
 
     /**
@@ -77,7 +76,10 @@ class ThreadsController extends Controller
      */
     public function show($channelId, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies()->paginate(20)
+        ]);
     }
 
     /**
@@ -112,5 +114,34 @@ class ThreadsController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    public function api(Channel $channel, ThreadsFilters $filters)
+    {
+        $threads = $this->getThreads($channel, $filters);
+
+        return response($threads)->header('Access-Control-Allow-Origin', '*')->header("content-type", "application/json");
+    }
+
+    /**
+     * @param Channel $channel
+     * @param ThreadsFilters $filters
+     * @return mixed
+     */
+    protected function getThreads(Channel $channel, ThreadsFilters $filters)
+    {
+        $threads = Thread::latest()->filter($filters);
+
+        //Query
+        if ($channel->exists) {
+            $threads->where('channel_id', $channel->id);
+        }
+
+        /**
+         * apply filter by user name
+         */
+        $threads = $threads->get();
+
+        return $threads;
     }
 }

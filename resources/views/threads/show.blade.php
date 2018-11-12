@@ -19,9 +19,12 @@
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                @foreach($thread->replies as $reply)
+
+                @foreach($replies as $reply)
                     @include('threads.reply')
                 @endforeach
+
+                {{ $replies->links() }}
             </div>
         </div>
 
