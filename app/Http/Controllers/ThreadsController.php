@@ -19,8 +19,9 @@ class ThreadsController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param $channel
-     * @return \Illuminate\Http\Response
+     * @param Channel $channel
+     * @param ThreadsFilters $filters
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Channel $channel, ThreadsFilters $filters)
     {
