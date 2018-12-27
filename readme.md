@@ -62,7 +62,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - 
 - 
 - 
-- №21 создание глобальных скоупов
+- 
 - №22 создать профиль пользователя
 - №23 удаление веток владельцем
 - №24 создание политики доступа(access)

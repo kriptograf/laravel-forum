@@ -29,6 +29,8 @@ Route::get('/threads/{channel}/{thread}', 'ThreadsController@show');
 
 Route::get('/threads/{channel}', 'ThreadsController@index');
 
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
+
 
 Route::post('/threads', 'ThreadsController@store');
 
