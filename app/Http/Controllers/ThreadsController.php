@@ -131,6 +131,7 @@ class ThreadsController extends Controller
      */
     protected function getThreads(Channel $channel, ThreadsFilters $filters)
     {
+        //c жадной загрузкой, для уменьшения количества запросов
         $threads = Thread::latest()->filter($filters);
 
         //Query
@@ -141,7 +142,7 @@ class ThreadsController extends Controller
         /**
          * apply filter by user name
          */
-        $threads = $threads->get();
+        $threads = $threads->paginate(20);//->get();
 
         return $threads;
     }

@@ -21,9 +21,10 @@
                             </article>
                             <hr>
                         @endforeach
-
                     </div>
+
                 </div>
+                {{ $threads->links() }}
             </div>
         </div>
     </div>

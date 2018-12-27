@@ -6,41 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+    use Favoritable;
+
     protected $guarded = [];
 
+    protected $with = ['owner', 'favorites'];
+
+    /**
+     * Relation to owner user
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Relation favorited
-     * Связь ответов с лайками
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function favorites()
-    {
-        return $this->morphMany(Favorite::class, 'favorited');
-    }
-
-    /**
-     * Сохранение лайков к ответам
-     * @return Model
-     */
-    public function favorite()
-    {
-        $attributes = ['user_id'=>auth()->id()];
-        if(!$this->favorites()->where($attributes)->exists()){
-            return $this->favorites()->create($attributes);
-        }
-    }
-
-    /**
-     * Проверка, что ответ уже помечен favorite
-     * @return bool
-     */
-    public function isFavorited()
-    {
-        return $this->favorites()->where(['user_id'=>auth()->id()])->exists();
-    }
 }

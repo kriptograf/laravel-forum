@@ -56,3 +56,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## TODO:
+
+- 
+- 
+- 
+- №21 создание глобальных скоупов
+- №22 создать профиль пользователя
+- №23 удаление веток владельцем
+- №24 создание политики доступа(access)
+- №25 создать ленту активности
+- №27 оптимзация, перенос запросов из контроллера в модель
+- №29 добавить флеш сообщения вместе с vue.js
+- 30/31 продолжение доработки access
+- 32 создать компонент vue для комментариев на посты
